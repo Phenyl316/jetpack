@@ -221,6 +221,9 @@ while true; do
                             done
                         done
                         ;;
+                    "Go Back")
+                        break 2
+                        ;;  
                     *)
                         echo "Choix invalide"
                         ;;
