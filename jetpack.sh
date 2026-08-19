@@ -39,6 +39,58 @@ echo " "
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
 echo " "
 
+echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
+echo " "
+
+echo "Shell (CAP_SETUID Capability) : "
+sudo getcap -r / 2>/dev/null | grep setuid | grep -Ff ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+echo " "
+
+echo "Shell (Sudo) : "
+sudo -l | grep "root" | awk '{print $NF}' | grep -Ff ShellSudo.txt
+echo " "
+
+echo "Shell (SUID) : "
+find / -perm -4000 2> /dev/null | grep -Ff ShellSUID.txt
+echo " "
+
+echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
+echo " "
+
+echo "Reverse Shell (Sudo) : "
+sudo -l | grep "root" | awk '{print $NF}' | grep -Ff RevShellSudo.txt
+echo " "
+
+echo "Reverse Shell (SUID) : "
+find / -perm -4000 2> /dev/null | grep -Ff RevShellSUID.txt
+echo " "
+
+echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
+echo " "
+
+echo "File Write (Sudo) : "
+sudo -l | grep "root" | awk '{print $NF}' | grep -Ff FileWriteSudo.txt
+echo " "
+
+echo "File Write (SUID) : "
+find / -perm -4000 2> /dev/null | grep -Ff FileWriteSUID.txt
+echo " "
+
+echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
+echo " "
+
+echo "File Read (CAP_DAC_OVERRIDE Capability) : "
+sudo getcap -r / 2>/dev/null | grep dac_override | grep -Ff FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+echo " "
+
+echo "File Read (Sudo) : "
+sudo -l | grep "root" | awk '{print $NF}' | grep -Ff FileReadSudo.txt
+echo " "
+
+echo "File Read (SUID) : "
+find / -perm -4000 2> /dev/null | grep -Ff FileReadSUID.txt
+echo " "
+
 while true; do
     echo "Categories : "
     echo " "
