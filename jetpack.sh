@@ -188,7 +188,7 @@ while true; do
                 echo "$result"
             fi
             
-            select choice in $result; do
+            select choice in $result "Go Back"; do
                 case "$choice" in
                     *gzip*)
                         while true; do
