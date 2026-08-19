@@ -1,3 +1,3 @@
-# jetpack
+# Jetpack
 
-![Jetpack](Jetpack.png)
+<img src="./Jetpack.png" alt="Mon image" width="500">
