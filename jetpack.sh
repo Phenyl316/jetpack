@@ -198,7 +198,7 @@ while true; do
                                         break
                                         ;;
 
-                                    "Autre"
+                                    "Autre")
                                         read -p "File : " file
                                         ;;
 
