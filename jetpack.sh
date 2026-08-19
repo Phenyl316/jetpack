@@ -149,8 +149,7 @@ while true; do
                         printf '%s\n' "$result" | nl -w2 -s') '
                         ;;
                 esac
-            done                
-            break
+            done               
             ;;
         2)
             echo "Root Shell (Sudo)"
@@ -229,7 +228,6 @@ while true; do
                         ;;
                 esac
             done
-            break
             ;;
         9)
             echo "File Read (Sudo) : "
