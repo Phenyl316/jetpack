@@ -40,14 +40,16 @@ echo "████████████████████████�
 echo " "
 
 echo "Root Shell (CAP_SETUID Capability) : "
-getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+ShellCap=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+echo "$ShellCap"
 echo " "
 
 echo "Shell (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "Shell (SUID) : "
-
+ShellSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/ShellSUID.txt) | cut -d' ' -f2-)
+echo "$ShellSUID"
 echo " "
 
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
@@ -57,7 +59,8 @@ echo "Reverse Shell (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "Reverse Shell (SUID) : "
-
+RevShellSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/RevShellSUID.txt) | cut -d' ' -f2-)
+echo "$RevShellSUID"
 echo " "
 
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
@@ -67,22 +70,24 @@ echo "File Write (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Write (SUID) : "
-
+FileWriteSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/FileWriteSUID.txt) | cut -d' ' -f2-)
+echo "$FileWriteSUID"
 echo " "
 
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
 echo " "
 
 echo "File Read (CAP_DAC_OVERRIDE Capability) : "
-getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+FileReadCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+echo "$FileReadCap"
 echo " "
 
 echo "File Read (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Read (SUID) : "
-FileReadSuid=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/FileReadSUID.txt) | cut -d' ' -f2-)
-echo "$FileReadSuid"
+FileReadSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/FileReadSUID.txt) | cut -d' ' -f2-)
+echo "$FileReadSUID"
 echo " "
 
 while true; do
@@ -105,15 +110,15 @@ while true; do
     case "$choix" in
         1)
             echo "Root Shell (CAP_SETUID Capability) : "
-            if [ -z "$result" ]; then
+            if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables CAP_SETUID Capable Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$result"
+                echo "$ShellCap"
             fi
             
-            select choice in $result "Go Back"; do
+            select choice in $ShellCap "Go Back"; do
                 case "$choice" in
                     *python3*)
                         echo "Trying with python3"
@@ -144,7 +149,7 @@ while true; do
                         ;;
                     *)
                         echo "Invalid Choice, Choose From : "
-                        printf '%s\n' "$result" | nl -w2 -s') '
+                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
                         ;;
                 esac
             done               
@@ -165,12 +170,12 @@ while true; do
             
         3)
             echo "Root Shell (SUID) : "
-            if [ -z "$result" ]; then
+            if [ -z "$ShellSUID" ]; then
                 echo "No Root Shell Vulnerables SUID Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$result"
+                echo "$ShellSUID"
             fi
 
 
@@ -190,12 +195,12 @@ while true; do
             
         5)
             echo "Reverse Shell (SUID) : "
-            if [ -z "$result" ]; then
+            if [ -z "$RevShellSUID" ]; then
                 echo "No Reverse Shell Vulnerables SUID Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$result"
+                echo "$RevShellSUID"
             fi
 
 
@@ -219,12 +224,12 @@ while true; do
             
         7)
             echo "File Write (SUID) : "
-            if [ -z "$result" ]; then
+            if [ -z "$FileWriteSUID" ]; then
                 echo "No File Write Vulnerables SUID Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$result"
+                echo "$FileWriteSUID"
             fi
 
 
@@ -235,15 +240,15 @@ while true; do
             ;;
         8)
             echo "File Read (CAP_DAC_OVERRIDE Capability) : "
-            if [ -z "$result" ]; then
+            if [ -z "$FileReadCap" ]; then
                 echo "No File Read Vulnerable CAP_DAC_OVERRIDE Capable Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$result"
+                echo "$FileReadCap"
             fi
             
-            select choice in $result "Go Back"; do
+            select choice in $FileReadCap "Go Back"; do
                 case "$choice" in
                     *gzip*)
                         while true; do
