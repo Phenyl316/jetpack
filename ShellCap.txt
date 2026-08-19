@@ -1,6 +1,0 @@
-gdb
-node
-perl
-php
-python
-ruby
