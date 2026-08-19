@@ -13,7 +13,7 @@ cat << 'EOF'
              cXMMMMMMMM: l00d; .xWMMMMW, :       
               ..:kNMMMM0 .;;cxXMMMMMMN. OMK.     
            ,xNMXd, .l0x ,WMMMMMMMMMMK..XMMMW;    
-         .KMMMMMMMN     dXMMMMMMMMMk 'NMMMMMMo   
+         .KMMMMMMMN     dXMMMMMMMMMk 'NMMMMMMo                    
         ;, 'oKMMMMX      ..cOWMMMMl :MMMMMMMMM0  
        dMl .c .:kN;   c0MMKo' 'oK;  xWMMMMMMMMMx 
       0W; ;WO  o'   ,NMMMMMMMo        :OMMMMMMd  
@@ -43,8 +43,7 @@ echo "Root Shell (CAP_SETUID Capability) : "
 getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
 echo " "
 
-echo "Shell (Sudo) : "
-sudo -l | grep "(root)" | awk '{print $NF}' | grep -Ff ./Dependencies/ShellSudo.txt
+echo "Shell (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "Shell (SUID) : "
@@ -54,8 +53,7 @@ echo " "
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
 echo " "
 
-echo "Reverse Shell (Sudo) : "
-sudo -l | grep "root" | awk '{print $NF}' | grep -Ff ./Dependencies/RevShellSudo.txt
+echo "Reverse Shell (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "Reverse Shell (SUID) : "
@@ -65,8 +63,7 @@ echo " "
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
 echo " "
 
-echo "File Write (Sudo) : "
-sudo -l | grep "root" | awk '{print $NF}' | grep -Ff ./Dependencies/FileWriteSudo.txt
+echo "File Write (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Write (SUID) : "
@@ -80,8 +77,7 @@ echo "File Read (CAP_DAC_OVERRIDE Capability) : "
 getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
 echo " "
 
-echo "File Read (Sudo) : "
-sudo -l | grep "root" | awk '{print $NF}' | grep -Ff ./Dependencies/FileReadSudo.txt
+echo "File Read (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Read (SUID) : "
@@ -92,14 +88,14 @@ while true; do
     echo "Categories : "
     echo " "
     echo "1) Root Shell (CAP_SETUID Capability)"
-    echo "2) Root Shell (Sudo)"
+    echo "2) Root Shell (Sudo) [WORKINPROGRESS]"
     echo "3) Root Shell (SUID)"
-    echo "4) Reverse Shell (Sudo)"
+    echo "4) Reverse Shell (Sudo) [WORKINPROGRESS]"
     echo "5) Reverse Shell (SUID)"
-    echo "6) File Write (Sudo)"
+    echo "6) File Write (Sudo) [WORKINPROGRESS]"
     echo "7) File Write (SUID)"
     echo "8) File Read (CAP_DAC_OVERRIDE Capability)"
-    echo "9) File Read (Sudo)"
+    echo "9) File Read (Sudo) [WORKINPROGRESS]"
     echo "10) File Read (SUID)"
     echo "11) Quit"
     echo " "    
@@ -108,10 +104,10 @@ while true; do
     case "$choix" in
         1)
             echo "Root Shell (CAP_SETUID Capability) : "
-            result=$(getcap -r / 2>/dev/null | grep setuid | awk -F' = ' '{print $1}' | awk '{print $1}')
+            result=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
 
             if [ -z "$result" ]; then
-                echo "No CAP_SETUID Binaries Detected"
+                echo "No Vulnerables CAP_SETUID Capable Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
@@ -154,36 +150,102 @@ while true; do
                 esac
             done               
             ;;
+
+
+
+
+            
         2)
-            echo "Root Shell (Sudo)"
+            echo "Root Shell (Sudo) : [WORKINPROGRESS]"
             break
             ;;
+
+
+
+
+            
         3)
-            echo "Root Shell (SUID)"
-            break
+            echo "Root Shell (SUID) : "
+            result=$(find / -perm -4000 2> /dev/null | grep -Ff ./Dependencies/ShellSUID.txt)
+
+            if [ -z "$result" ]; then
+                echo "No Root Shell Vulnerables SUID Binaries Detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$result"
+            fi
+
+
+
+
+            
+
             ;;
         4)
-            echo "Reverse Shell (Sudo)"
-            break
+            echo "Reverse Shell (Sudo) : [WORKINPROGRESS]"
+
             ;;
+
+
+
+
+            
         5)
             echo "Reverse Shell (SUID) : "
-            break
+            result=$(find / -perm -4000 2> /dev/null | grep -Ff ./Dependencies/RevShellSUID.txt)
+
+            if [ -z "$result" ]; then
+                echo "No Reverse Shell Vulnerables SUID Binaries Detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$result"
+            fi
+
+
+
+
+            
             ;;
+
+
+
+
+            
         6)
-            echo "File Write (Sudo) : "
-            break
+            echo "File Write (Sudo) : [WORKINPROGRESS]"
+
             ;;
+
+
+
+
+            
         7)
             echo "File Write (SUID) : "
-            break
+            result=$(find / -perm -4000 2> /dev/null | grep -Ff ./Dependencies/FileWriteSUID.txt)
+
+            if [ -z "$result" ]; then
+                echo "No File Write Vulnerables SUID Binaries Detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$result"
+            fi
+
+
+
+
+
+
             ;;
         8)
             echo "File Read (CAP_DAC_OVERRIDE Capability) : "
-            result=$(getcap -r / 2>/dev/null | grep dac_override | awk -F' = ' '{print $1}' | awk '{print $1}')
+            result=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
 
             if [ -z "$result" ]; then
-                echo "No CAP_DAC_OVERRIDE Binaries Detected"
+                echo "No File Read Vulnerable CAP_DAC_OVERRIDE Capable Binaries Detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
@@ -232,13 +294,37 @@ while true; do
                 esac
             done
             ;;
+
+
+
+
+            
         9)
-            echo "File Read (Sudo) : "
-            break
+            echo "File Read (Sudo) : [WORKINPROGRESS]"
+
             ;;
+
+
+
+
+            
         10)
             echo "File Read (SUID) : "
-            break
+            result=$(find / -perm -4000 2> /dev/null | grep -Ff ./Dependencies/FileReadSUID.txt)
+
+            if [ -z "$result" ]; then
+                echo "No File Read Vulnerables SUID Binaries Detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$result"
+            fi
+
+
+
+
+
+
             ;;
         11)
             echo "Quit"
