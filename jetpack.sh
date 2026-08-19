@@ -195,7 +195,7 @@ while true; do
                             select file in "/root/.ssh/id_rsa" "/etc/shadow" "Autre" "Retour"; do
                                 case "$file" in
                                     "Retour")
-                                        break
+                                        break 2
                                         ;;
 
                                     "Autre")
