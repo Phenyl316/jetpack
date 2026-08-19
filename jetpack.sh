@@ -118,7 +118,7 @@ while true; do
                 echo "$result"
             fi
             
-            select choice in $result; do
+            select choice in $result "Go Back"; do
                 case "$choice" in
                     *python3*)
                         echo "Trying with python3"
