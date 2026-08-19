@@ -81,7 +81,7 @@ echo "File Read (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Read (SUID) : "
-FileReadSuid = $(find / -type f -perm -4000 2>/dev/null | grep -f <(sed 's|^|/|;s|$|.*|' ./Dependencies/FileReadSUID.txt))
+FileReadSuid=$(find / -type f -perm -4000 2>/dev/null | grep -f <(sed 's|^|/|;s|$|.*|' ./Dependencies/FileReadSUID.txt))
 echo "$FileReadSuid"
 echo " "
 
