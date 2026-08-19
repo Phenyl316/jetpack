@@ -1,0 +1,16 @@
+bash
+gawk
+julia
+ksh
+lua
+nawk
+nc
+node
+openssl
+php
+python
+socat
+socket
+tclsh
+telnet
+zsh
