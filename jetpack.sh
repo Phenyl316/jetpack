@@ -222,7 +222,7 @@ while true; do
                         done
                         ;;
                     "Go Back")
-                        break 2
+                        break 1
                         ;;  
                     *)
                         echo "Choix invalide"
