@@ -137,32 +137,42 @@ while true; do
     case "$choix" in
        
             
-        1)  echo "Root Shell Selected\n"
+        1)  echo "Root Shell Selected"
+            echo " "
         
-            echo "Vulnerables Binaries with Capabilities:\n"
+            echo "Vulnerables Binaries with Capabilities:"
+            echo " "
             if [ -z "$ShellCap" ]; then
-                echo "No Vulnerables Binaries with Capabilities detected\n"
+                echo "No Vulnerables Binaries with Capabilities detected"
+                echo " "
                 continue
             else
-                echo "Vulnerables Binaries :\n"
+                echo "Vulnerables Binaries :"
+                echo " "
                 echo "$ShellCap"
             fi
             
-            echo "Vulnerables Binaries that can be executed as root :\n"
+            echo "Vulnerables Binaries that can be executed as root :"
+            echo " "
             if [ -z "$ShellSudo" ]; then
-                echo "No Vulnerables Binaries that can be executed as root detected\n"
+                echo "No Vulnerables Binaries that can be executed as root detected"
+                echo " "
                 continue
             else
-                echo "Vulnerables Binaries :\n"
+                echo "Vulnerables Binaries :"
+                echo " "
                 echo "$ShellSudo"
             fi
             
-            echo "Vulnerables Binaries with the SUID bit enabled :\n"
+            echo "Vulnerables Binaries with the SUID bit enabled :"
+            echo " "
             if [ -z "$ShellSUID" ]; then
-                echo "No Vulnerables Binaries with the SUID bit enabled detected\n"
+                echo "No Vulnerables Binaries with the SUID bit enabled detected"
+                echo " "
                 continue
             else
-                echo "Vulnerables Binaries :\n"
+                echo "Vulnerables Binaries :"
+                echo " "
                 echo "$ShellSUID"
             fi
 
@@ -178,7 +188,8 @@ while true; do
             exit 0
             ;;
         *)
-            echo "Invalid Choice, Restart\n"
+            echo "Invalid Choice, Restart"
+            echo " "
             ;;
     esac
 done
