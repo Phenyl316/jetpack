@@ -127,23 +127,14 @@ echo "████████████████████████�
 echo " "
 
 while true; do
-    echo "Categories : "
-    echo " "
-    echo "1) Root Shell (Capabilities)"
-    echo "2) Root Shell (Sudo) [WORKINPROGRESS]"
-    echo "3) Root Shell (SUID)"
-    echo "4) Reverse Shell (Capabilities)"
-    echo "5) Reverse Shell (Sudo) [WORKINPROGRESS]"
-    echo "6) Reverse Shell (SUID)"
-    echo "7) Reverse Shell (Capabilities)"
-    echo "7) File Write (Sudo) [WORKINPROGRESS]"
-    echo "8) File Write (SUID)"
-    echo "9) File Read (Capabilities)"
-    echo "10) File Read (Sudo) [WORKINPROGRESS]"
-    echo "11) File Read (SUID)"
-    echo "12) Quit"
+    echo "Techniques : "
+    echo "1) Root Shell"
+    echo "2) Reverse Shell"
+    echo "3) File Read"
+    echo "4) File Write"
+    echo "5) Quit"
     echo " "    
-    read -p "Vulnerability Choice : " choix
+    read -p "Technique Choice : " choix
 
     case "$choix" in
        
@@ -164,7 +155,7 @@ while true; do
 
 
             ;;
-        11)
+        5)
             echo "Quit"
             exit 0
             ;;
