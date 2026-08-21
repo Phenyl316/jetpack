@@ -131,36 +131,38 @@ while true; do
     echo "5) Quit"
     echo " "    
     read -p "Technique Choice : " choix
-
+    
+    echo " "
+ 
     case "$choix" in
        
             
-        1)  echo "Root Shell Selected"
+        1)  echo "Root Shell Selected\n"
         
-            echo "Vulnerables Binaries with Capabilities: "
+            echo "Vulnerables Binaries with Capabilities:\n"
             if [ -z "$ShellCap" ]; then
-                echo "No Vulnerables Binaries with Capabilities detected"
+                echo "No Vulnerables Binaries with Capabilities detected\n"
                 continue
             else
-                echo "Vulnerables Binaries :"
+                echo "Vulnerables Binaries :\n"
                 echo "$ShellCap"
             fi
             
-            echo "Vulnerables Binaries that can be executed as root: "
+            echo "Vulnerables Binaries that can be executed as root :\n"
             if [ -z "$ShellSudo" ]; then
-                echo "No Vulnerables Binaries that can be executed as root detected"
+                echo "No Vulnerables Binaries that can be executed as root detected\n"
                 continue
             else
-                echo "Vulnerables Binaries :"
+                echo "Vulnerables Binaries :\n"
                 echo "$ShellSudo"
             fi
             
-            echo "Vulnerables Binaries with the SUID bit enabled:  "
+            echo "Vulnerables Binaries with the SUID bit enabled :\n"
             if [ -z "$ShellSUID" ]; then
-                echo "No Vulnerables Binaries with the SUID bit enabled detected"
+                echo "No Vulnerables Binaries with the SUID bit enabled detected\n"
                 continue
             else
-                echo "Vulnerables Binaries :"
+                echo "Vulnerables Binaries :\n"
                 echo "$ShellSUID"
             fi
 
@@ -176,7 +178,7 @@ while true; do
             exit 0
             ;;
         *)
-            echo "Invalid Choice, Restart"
+            echo "Invalid Choice, Restart\n"
             ;;
     esac
 done
