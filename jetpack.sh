@@ -37,25 +37,64 @@ cat << 'EOF'
 EOF
 echo " "
 echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
-echo " "
+echo " "                                                                                                      
+                                                                                                              
+echo"░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+cat << 'EOF'
+╔═╗┌─┐┌─┐┌─┐┌┐ ┬┬  ┬┌┬┐┬┌─┐┌─┐
+║  ├─┤├─┘├─┤├┴┐││  │ │ │├┤ └─┐
+╚═╝┴ ┴┴  ┴ ┴└─┘┴┴─┘┴ ┴ ┴└─┘└─┘
+EOF
 
-echo "Root Shell (CAP_SETUID Capability) : "
+echo "Shell (Capabilities) : "
 ShellCap=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
 echo "$ShellCap"
 echo " "
 
-echo "Shell (Sudo) : [WORKINPROGRESS]"
+echo "Reverse Shell (Capabilities) : "
+RevShellCap=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/RevShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+echo "$RevShellCap"
 echo " "
+
+echo "File Read (Capabilities) : "
+FileReadCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+echo "$FileReadCap"
+echo " "
+
+echo "File Write (Capabilities) : "
+FileWriteCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileWriteCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+echo "$FileWriteCap"
+echo " "
+
+echo"░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+cat << 'EOF'
+╔═╗┬ ┬┌┬┐┌─┐
+╚═╗│ │ │││ │
+╚═╝└─┘─┴┘└─┘
+EOF
+
+echo "=Shell (Sudo) : "
+echo " "
+
+echo "Reverse Shell (Sudo) : "
+echo " "
+
+echo "File Write (Sudo) : "
+echo " "
+
+echo "File Read (Sudo) : "
+echo " "
+
+echo"░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+cat << 'EOF'
+╔═╗╦ ╦╦╔╦╗
+╚═╗║ ║║ ║║
+╚═╝╚═╝╩═╩╝
+EOF
 
 echo "Shell (SUID) : "
 ShellSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/ShellSUID.txt) | cut -d' ' -f2-)
 echo "$ShellSUID"
-echo " "
-
-echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
-echo " "
-
-echo "Reverse Shell (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "Reverse Shell (SUID) : "
@@ -63,26 +102,9 @@ RevShellSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo
 echo "$RevShellSUID"
 echo " "
 
-echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
-echo " "
-
-echo "File Write (Sudo) : [WORKINPROGRESS]"
-echo " "
-
 echo "File Write (SUID) : "
 FileWriteSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo "$(basename "$p") $p"; done | grep -f <(sed 's|^|^|;s|$| .*|' ./Dependencies/FileWriteSUID.txt) | cut -d' ' -f2-)
 echo "$FileWriteSUID"
-echo " "
-
-echo "████████████████████████████████████████████████████████████████████████████████████████████████████████"
-echo " "
-
-echo "File Read (CAP_DAC_OVERRIDE Capability) : "
-FileReadCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
-echo "$FileReadCap"
-echo " "
-
-echo "File Read (Sudo) : [WORKINPROGRESS]"
 echo " "
 
 echo "File Read (SUID) : "
@@ -90,10 +112,12 @@ FileReadSUID=$(find / -type f -perm -4000 2>/dev/null | while read -r p; do echo
 echo "$FileReadSUID"
 echo " "
 
+echo"░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+
 while true; do
     echo "Categories : "
     echo " "
-    echo "1) Root Shell (CAP_SETUID Capability)"
+    echo "1) Root Shell (Capabilities)"
     echo "2) Root Shell (Sudo) [WORKINPROGRESS]"
     echo "3) Root Shell (SUID)"
     echo "4) Reverse Shell (Capabilities)"
