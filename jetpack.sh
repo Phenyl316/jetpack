@@ -135,15 +135,35 @@ while true; do
     case "$choix" in
        
             
-        10)
-            echo "File Read (SUID) : "
-            if [ -z "$FileReadSuid" ]; then
-                echo "No File Read Vulnerables SUID Binaries Detected"
+        1)  echo "Root Shell Selected"
+        
+            echo "Vulnerables Binaries with Capabilities: "
+            if [ -z "$ShellCap" ]; then
+                echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             else
                 echo "Vulnerables Binaries :"
-                echo "$FileReadSuid"
+                echo "$ShellCap"
             fi
+            
+            echo "Vulnerables Binaries that can be executed as root: "
+            if [ -z "$ShellSudo" ]; then
+                echo "No Vulnerables Binaries that can be executed as root detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$ShellSudo"
+            fi
+            
+            echo "Vulnerables Binaries with the SUID bit enabled:  "
+            if [ -z "$ShellSUID" ]; then
+                echo "No Vulnerables Binaries with the SUID bit enabled detected"
+                continue
+            else
+                echo "Vulnerables Binaries :"
+                echo "$ShellSUID"
+            fi
+
 
 
 
