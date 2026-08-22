@@ -228,9 +228,9 @@ while true; do
                         read -p "Do you want to read another file? [y/N] : " answer
 
                         if [[ "$answer" =~ ^[Yy]$ ]]; then
-                            break
+                            continue
                         else
-                            break 2
+                            break
                         fi
                         ;;
                     
