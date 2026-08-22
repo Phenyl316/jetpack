@@ -180,8 +180,6 @@ while true; do
                                 break 2
                             fi
                             ;;
-
-                            ;;
                         "Go Back")
                             break
                             ;;
