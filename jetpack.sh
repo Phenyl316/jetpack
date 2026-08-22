@@ -148,7 +148,8 @@ while true; do
             else
                 echo "$ShellCap"
             fi
-            
+
+            echo " "
             echo "----- < Vulnerables Binaries that can be executed as root > -----"
             echo " "
             if [ -z "$ShellSudo" ]; then
@@ -157,7 +158,8 @@ while true; do
             else
                 echo "$ShellSudo"
             fi
-            
+
+            echo " "
             echo "----- < Vulnerables Binaries with the SUID bit enabled > -----"
             echo " "
             if [ -z "$ShellSUID" ]; then
