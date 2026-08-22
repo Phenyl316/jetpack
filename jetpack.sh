@@ -137,10 +137,10 @@ while true; do
     case "$choix" in
        
             
-        1)  echo "----Root Shell Selected----"
+        1)  echo "########## Root Shell Selected ##########"
             echo " "
         
-            echo "--Vulnerables Binaries with Capabilities--"
+            echo "----- < Vulnerables Binaries with Capabilities > -----"
             echo " "
             if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
@@ -149,7 +149,7 @@ while true; do
                 echo "$ShellCap"
             fi
             
-            echo "--Vulnerables Binaries that can be executed as root--"
+            echo "----- < Vulnerables Binaries that can be executed as root > -----"
             echo " "
             if [ -z "$ShellSudo" ]; then
                 echo "No Vulnerables Binaries that can be executed as root detected"
@@ -158,7 +158,7 @@ while true; do
                 echo "$ShellSudo"
             fi
             
-            echo "--Vulnerables Binaries with the SUID bit enabled--"
+            echo "----- < Vulnerables Binaries with the SUID bit enabled > -----"
             echo " "
             if [ -z "$ShellSUID" ]; then
                 echo "No Vulnerables Binaries with the SUID bit enabled detected"
