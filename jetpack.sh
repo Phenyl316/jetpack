@@ -241,7 +241,7 @@ while true; do
                         if [[ "$answer" =~ ^[Yy]$ ]]; then
                             echo "Availables Binaries to Exploit : "
                             echo " "
-                            echo "$FileReadCap"
+                            echo "$choice"
                             echo " "
                             continue
                         else
