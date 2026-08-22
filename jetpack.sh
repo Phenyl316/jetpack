@@ -224,9 +224,8 @@ while true; do
             fi
 
             while true; do
-                echo "Availables Binaries to Exploit : "
-                echo " "
                 echo "$FileReadCap"
+                echo "Choose from the following : "
                 echo " "
             
                 select choice in $FileReadCap "Go Back"; do
