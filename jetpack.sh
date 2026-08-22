@@ -218,7 +218,7 @@ while true; do
                 echo "$FileReadCap"
             fi
 
-            select choice in $$FileReadCap "Go Back"; do
+            select choice in $FileReadCap "Go Back"; do
                 case "$choice" in
                     *python*)
                         read -p "What file do you want to read ? : " FILE
