@@ -218,7 +218,7 @@ while true; do
                 echo "$FileReadCap"
             fi
 
-            select choice in $ShellCap "Go Back"; do
+            select choice in $$FileReadCap "Go Back"; do
                 case "$choice" in
                     *python*)
                         read -p "What file do you want to read ? : " FILE
@@ -239,7 +239,7 @@ while true; do
                         ;;
                     *)
                         echo "Invalid Choice, Choose From : "
-                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
+                        printf '%s\n' "$FileReadCap" | nl -w2 -s') '
                         ;;
                 esac
             done               
