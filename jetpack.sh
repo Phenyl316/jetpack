@@ -285,7 +285,7 @@ while true; do
                                     case "$ANSWER" in
 
                                         "Enable sudo ALL")
-                                            "$choice" -c 'import os; os.setuid(0);open("/etc/sudoers","a").write("\nALL ALL=(ALL) NOPASSWD:ALL")'
+                                            "$choice" -c 'import os; os.setuid(0); os.system("chmod 777 /etc/sudoers"); open("/etc/sudoers","a").write("\nALL ALL=(ALL) NOPASSWD:ALL"); os.system("chmod 440 /etc/sudoers")'
                                             break
                                             ;;
                                         "Create Root Users (WIP)")
