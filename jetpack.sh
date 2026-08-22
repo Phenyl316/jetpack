@@ -145,7 +145,6 @@ while true; do
             if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 echo " "
-                continue
             else
                 echo "Vulnerables Binaries :"
                 echo " "
@@ -157,7 +156,6 @@ while true; do
             if [ -z "$ShellSudo" ]; then
                 echo "No Vulnerables Binaries that can be executed as root detected"
                 echo " "
-                continue
             else
                 echo "Vulnerables Binaries :"
                 echo " "
