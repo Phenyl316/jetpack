@@ -48,22 +48,22 @@ cat << 'EOF'
 EOF
 
 echo "Shell (Capabilities) : "
-ShellCap=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/ShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+ShellCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/ShellCap.txt; done)
 echo "$ShellCap"
 echo " "
 
 echo "Reverse Shell (Capabilities) : "
-RevShellCap=$(getcap -r / 2>/dev/null | grep setuid | grep -Ff ./Dependencies/RevShellCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+RevShellCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/RevShellCap.txt; done)
 echo "$RevShellCap"
 echo " "
 
 echo "File Read (Capabilities) : "
-FileReadCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileReadCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+FileReadCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid|cap_dac_override/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/ShellSUID.txt; done)
 echo "$FileReadCap"
 echo " "
 
 echo "File Write (Capabilities) : "
-FileWriteCap=$(getcap -r / 2>/dev/null | grep dac_override | grep -Ff ./Dependencies/FileWriteCap.txt | awk -F' = ' '{print $1}' | awk '{print $1}')
+FileWriteCap=$(getcap -r / 2>/dev/null | awk '$0 ~ /cap_setuid/ {print $1}' | while read -r p; do b="${p##*/}"; while IFS= read -r n; do [[ "$b" =~ $n ]] && echo "$p" && break; done < ./Dependencies/FileWriteCap.txt; done)
 echo "$FileWriteCap"
 echo " "
 
