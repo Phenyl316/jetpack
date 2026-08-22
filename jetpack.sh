@@ -124,6 +124,7 @@ echo " "
 
 while true; do
     echo "Techniques : "
+    echo " "
     echo "1) Shell (CAP_SETUID Capability)"
     echo "1) Shell (Sudo)"
     echo "1) Shell (SUID)"
