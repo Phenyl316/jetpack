@@ -181,7 +181,7 @@ while true; do
                             fi
                             ;;
                         "Go Back")
-                            break
+                            break 2
                             ;;
                         *)
                             echo "Invalid Choice, Choose From : "
@@ -225,7 +225,7 @@ while true; do
                             ;;
 
                         "Go Back")
-                            break
+                            break 2
                             ;;
                         *)
                             echo "Invalid Choice, Choose From : "
