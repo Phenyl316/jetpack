@@ -224,7 +224,6 @@ while true; do
             fi
 
             while true; do
-                echo "$FileReadCap"
                 echo "Choose from the following : "
                 echo " "
             
