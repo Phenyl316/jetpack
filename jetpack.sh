@@ -239,6 +239,7 @@ while true; do
                         read -p "Do you want to read another file? [y/N] : " answer
 
                         if [[ "$answer" =~ ^[Yy]$ ]]; then
+                            echo "Availables Binaries to Exploit : "
                             continue
                         else
                             break
