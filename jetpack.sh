@@ -253,7 +253,7 @@ while true; do
                 done
             done               
             ;;
-        3)
+        4)
             echo "----- < File Write (CAP_SETUID Capability) > -----"
             echo " "
             
